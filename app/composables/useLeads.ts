@@ -171,6 +171,48 @@ export const useLeads = () => {
     }
   }
 
+  const reorderLead = (
+    id: string,
+    toStatus: LeadStatus,
+    targetIndex: number,
+    reason?: ClosedReason
+  ) => {
+    const leadIndex = leads.value.findIndex(l => l.id === id)
+    if (leadIndex === -1) return
+
+    const [lead] = leads.value.splice(leadIndex, 1)
+    if (!lead) return
+
+    lead.status = toStatus
+    if (toStatus === 'CLOSED') {
+      lead.closedReason = reason || lead.closedReason || 'NO_ANSWER'
+    } else {
+      lead.closedReason = undefined
+    }
+    lead.updatedAt = new Date().toISOString()
+
+    // Find leads in the target status
+    const statusLeads = leads.value.filter(l => l.status === toStatus)
+
+    if (targetIndex >= statusLeads.length) {
+      if (statusLeads.length > 0) {
+        const last = statusLeads[statusLeads.length - 1]
+        const lastIdx = leads.value.indexOf(last!)
+        leads.value.splice(lastIdx + 1, 0, lead)
+      } else {
+        leads.value.push(lead)
+      }
+    } else {
+      const targetLead = statusLeads[targetIndex]
+      if (targetLead) {
+        const insertIdx = leads.value.indexOf(targetLead)
+        leads.value.splice(insertIdx, 0, lead)
+      } else {
+        leads.value.push(lead)
+      }
+    }
+  }
+
   const deleteLead = (id: string) => {
     leads.value = leads.value.filter(l => l.id !== id)
   }
@@ -186,6 +228,7 @@ export const useLeads = () => {
     counts,
     addLead,
     updateLeadStatus,
+    reorderLead,
     deleteLead
   }
 }

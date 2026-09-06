@@ -14,7 +14,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'move-lead', id: string, toStatus: LeadStatus): void
+  (e: 'move-lead', payload: { id: string; fromStatus: LeadStatus; toStatus: LeadStatus; newIndex: number }): void
 }>()
 
 const containerRef = ref<HTMLElement | null>(null)
@@ -23,17 +23,38 @@ let sortableInstance: Sortable | null = null
 onMounted(() => {
   if (containerRef.value) {
     sortableInstance = new Sortable(containerRef.value, {
-      group: 'leads-kanban-board',
-      animation: 200,
-      ghostClass: 'opacity-30',
+      group: {
+        name: 'leads-kanban-board',
+        pull: true,
+        put: true
+      },
+      animation: 180,
+      ghostClass: 'opacity-25',
       chosenClass: 'ring-2 ring-primary-500 rounded-xl shadow-lg',
-      dragClass: 'opacity-90',
+      dragClass: 'opacity-90 scale-[1.02] shadow-xl',
       fallbackOnBody: true,
       swapThreshold: 0.65,
-      onAdd: (evt) => {
-        const id = evt.item.getAttribute('data-id')
-        if (id) {
-          emit('move-lead', id, props.status)
+      draggable: '.lead-card',
+      onEnd: (evt) => {
+        const { item, from, to, oldIndex, newIndex } = evt
+        const id = item.getAttribute('data-id')
+        const fromStatus = from.getAttribute('data-status') as LeadStatus
+        const toStatus = to.getAttribute('data-status') as LeadStatus
+
+        if (id && fromStatus && toStatus && typeof newIndex === 'number' && typeof oldIndex === 'number') {
+          // Put item back into original position so Vue can reconcile virtual DOM cleanly
+          if (from !== to) {
+            item.remove()
+          } else if (oldIndex !== newIndex) {
+            from.insertBefore(item, from.children[oldIndex > newIndex ? oldIndex + 1 : oldIndex] || null)
+          }
+
+          emit('move-lead', {
+            id,
+            fromStatus,
+            toStatus,
+            newIndex
+          })
         }
       }
     })
@@ -62,7 +83,7 @@ onUnmounted(() => {
     <!-- Column Header -->
     <div
       :class="[
-        'flex items-center justify-between p-3 rounded-xl border mb-3 shadow-2xs',
+        'flex items-center justify-between p-2.5 rounded-xl border mb-3 shadow-2xs',
         colorScheme === 'blue'
           ? 'bg-blue-50 dark:bg-blue-950/70 border-blue-200 dark:border-blue-900/70'
           : colorScheme === 'amber'
@@ -70,7 +91,7 @@ onUnmounted(() => {
             : 'bg-rose-50 dark:bg-rose-950/70 border-rose-200 dark:border-rose-900/70'
       ]"
     >
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2">
         <!-- Status color indicator dot -->
         <span
           :class="[
@@ -86,7 +107,7 @@ onUnmounted(() => {
         <div class="flex flex-col">
           <h3
             :class="[
-              'text-sm font-bold tracking-tight',
+              'text-xs sm:text-sm font-bold tracking-tight',
               colorScheme === 'blue'
                 ? 'text-blue-950 dark:text-blue-100'
                 : colorScheme === 'amber'
@@ -98,7 +119,7 @@ onUnmounted(() => {
           </h3>
           <span
             :class="[
-              'text-[11px] leading-none',
+              'text-[10px] leading-none',
               colorScheme === 'blue'
                 ? 'text-blue-700/70 dark:text-blue-400/80'
                 : colorScheme === 'amber'
@@ -114,12 +135,12 @@ onUnmounted(() => {
       <!-- Count Badge -->
       <span
         :class="[
-          'px-2.5 py-0.5 rounded-full font-bold text-xs shadow-2xs',
+          'px-2 py-0.5 rounded-full font-bold text-xs shadow-2xs',
           colorScheme === 'blue'
-            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/90 dark:text-blue-200 border border-blue-200/80 dark:border-blue-800'
+            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/90 dark:text-blue-200 border border-blue-200/80'
             : colorScheme === 'amber'
-              ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/90 dark:text-amber-200 border border-amber-200/80 dark:border-amber-800'
-              : 'bg-rose-100 text-rose-800 dark:bg-rose-900/90 dark:text-rose-200 border border-rose-200/80 dark:border-rose-800'
+              ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/90 dark:text-amber-200 border border-amber-200/80'
+              : 'bg-rose-100 text-rose-800 dark:bg-rose-900/90 dark:text-rose-200 border border-rose-200/80'
         ]"
       >
         {{ count }}
@@ -130,7 +151,7 @@ onUnmounted(() => {
     <div
       ref="containerRef"
       :data-status="status"
-      class="flex-1 overflow-y-auto space-y-2.5 min-h-[350px] pb-6 rounded-xl"
+      class="flex-1 overflow-y-auto space-y-2 min-h-[350px] pb-6 rounded-xl"
     >
       <KanbanCard
         v-for="lead in leads"
@@ -142,7 +163,7 @@ onUnmounted(() => {
       <div
         v-if="leads.length === 0"
         :class="[
-          'h-44 rounded-xl border border-dashed flex flex-col items-center justify-center p-4 text-center',
+          'h-36 rounded-xl border border-dashed flex flex-col items-center justify-center p-4 text-center select-none',
           colorScheme === 'blue'
             ? 'border-blue-200 dark:border-blue-900/50 text-blue-400'
             : colorScheme === 'amber'
@@ -150,9 +171,9 @@ onUnmounted(() => {
               : 'border-rose-200 dark:border-rose-900/50 text-rose-400'
         ]"
       >
-        <UIcon name="i-lucide-inbox" class="w-6 h-6 mb-1.5 opacity-60" />
+        <UIcon name="i-lucide-inbox" class="w-5 h-5 mb-1 opacity-60" />
         <span class="text-xs font-medium">No leads in this stage</span>
-        <span class="text-[10px] opacity-70">Drag leads here</span>
+        <span class="text-[10px] opacity-70">Drop cards here to update</span>
       </div>
     </div>
   </div>

@@ -18,7 +18,8 @@ const {
   waitingLeads,
   closedLeads,
   counts,
-  updateLeadStatus
+  updateLeadStatus,
+  reorderLead
 } = useLeads()
 
 const { courses } = useCourses()
@@ -27,21 +28,24 @@ const isAddModalOpen = ref(false)
 
 // Reason selection when moving to Closed
 const pendingClosedLeadId = ref<string | null>(null)
+const pendingNewIndex = ref<number>(0)
 const isReasonModalOpen = ref(false)
 const selectedReason = ref<ClosedReason>('NO_ANSWER')
 
-const handleMoveLead = (id: string, toStatus: LeadStatus) => {
+const handleMoveLead = (payload: { id: string; fromStatus: LeadStatus; toStatus: LeadStatus; newIndex: number }) => {
+  const { id, toStatus, newIndex } = payload
   if (toStatus === 'CLOSED') {
     pendingClosedLeadId.value = id
+    pendingNewIndex.value = newIndex
     isReasonModalOpen.value = true
   } else {
-    updateLeadStatus(id, toStatus)
+    reorderLead(id, toStatus, newIndex)
   }
 }
 
 const confirmClosedReason = () => {
   if (pendingClosedLeadId.value) {
-    updateLeadStatus(pendingClosedLeadId.value, 'CLOSED', selectedReason.value)
+    reorderLead(pendingClosedLeadId.value, 'CLOSED', pendingNewIndex.value, selectedReason.value)
     pendingClosedLeadId.value = null
     isReasonModalOpen.value = false
   }
@@ -50,7 +54,7 @@ const confirmClosedReason = () => {
 const cancelClosedReason = () => {
   if (pendingClosedLeadId.value) {
     // Default to NO_ANSWER if dismissed
-    updateLeadStatus(pendingClosedLeadId.value, 'CLOSED', 'NO_ANSWER')
+    reorderLead(pendingClosedLeadId.value, 'CLOSED', pendingNewIndex.value, 'NO_ANSWER')
     pendingClosedLeadId.value = null
     isReasonModalOpen.value = false
   }
