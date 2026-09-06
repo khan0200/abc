@@ -7,6 +7,7 @@ from backend.app.seed import init_db
 from backend.app.api.auth import router as auth_router
 from backend.app.api.courses import router as courses_router
 from backend.app.api.leads import router as leads_router
+from backend.app.api.students import router as students_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -29,10 +30,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include Authentication, Courses, and Leads routers
+# Include Authentication, Courses, Leads, and Students routers
 app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(courses_router, prefix=settings.API_V1_STR)
 app.include_router(leads_router, prefix=settings.API_V1_STR)
+app.include_router(students_router, prefix=settings.API_V1_STR)
 
 @app.get("/api/health")
 def health_check():
