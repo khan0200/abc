@@ -5,10 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.app.config import settings
 from backend.app.seed import init_db
 from backend.app.api.auth import router as auth_router
+from backend.app.api.courses import router as courses_router
+from backend.app.api.leads import router as leads_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize SQLite database and seed roles & test users
+    # Initialize SQLite database and seed roles & test data
     init_db()
     yield
 
@@ -27,8 +29,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include Authentication and Roles router
+# Include Authentication, Courses, and Leads routers
 app.include_router(auth_router, prefix=settings.API_V1_STR)
+app.include_router(courses_router, prefix=settings.API_V1_STR)
+app.include_router(leads_router, prefix=settings.API_V1_STR)
 
 @app.get("/api/health")
 def health_check():
