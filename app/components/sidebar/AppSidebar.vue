@@ -1,15 +1,30 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSidebar } from '~/composables/useSidebar'
 
 const route = useRoute()
 const { isMobileOpen, isCollapsed, navItems, closeMobile, toggleCollapse } = useSidebar()
 
-// Close mobile sidebar on route change
-watch(() => route.path, () => {
+const expandedItems = ref<Record<string, boolean>>({ settings: true })
+
+const toggleExpand = (id: string) => {
+  expandedItems.value[id] = !expandedItems.value[id]
+}
+
+const isExpanded = (id: string) => {
+  return !!expandedItems.value[id]
+}
+
+// Auto-expand if active route belongs to parent
+watch(() => route.path, (path) => {
   closeMobile()
-})
+  for (const item of navItems) {
+    if (item.children && (path === item.to || path.startsWith(`${item.to}/`))) {
+      expandedItems.value[item.id] = true
+    }
+  }
+}, { immediate: true })
 
 const isItemActive = (to: string) => {
   if (to === '/') {
@@ -110,55 +125,89 @@ const isItemActive = (to: string) => {
           Navigation
         </div>
 
-        <!-- 6 Required Menu Items in exact order -->
-        <NuxtLink
+        <!-- Main Menu Items -->
+        <div
           v-for="item in navItems"
           :key="item.id"
-          :to="item.to"
-          :class="[
-            'group relative flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 select-none outline-hidden',
-            isItemActive(item.to)
-              ? 'bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 font-semibold shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/80 dark:hover:bg-slate-800/50',
-            isCollapsed && !isMobileOpen ? 'justify-center px-0' : ''
-          ]"
-          :title="isCollapsed && !isMobileOpen ? item.label : undefined"
+          class="space-y-1"
         >
-          <!-- Active Indicator Accent Pill -->
-          <span
-            v-if="isItemActive(item.to)"
-            class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary-600 rounded-r-full"
-            aria-hidden="true"
-          />
+          <div class="relative flex items-center">
+            <NuxtLink
+              :to="item.to"
+              :class="[
+                'group relative flex-1 flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 select-none outline-hidden',
+                isItemActive(item.to)
+                  ? 'bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 font-semibold shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/80 dark:hover:bg-slate-800/50',
+                isCollapsed && !isMobileOpen ? 'justify-center px-0' : ''
+              ]"
+              :title="isCollapsed && !isMobileOpen ? item.label : undefined"
+            >
+              <!-- Active Indicator Accent Pill -->
+              <span
+                v-if="isItemActive(item.to)"
+                class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary-600 rounded-r-full"
+                aria-hidden="true"
+              />
 
-          <!-- Icon with aligned metrics and hover micro-interaction -->
-          <div
-            :class="[
-              'flex items-center justify-center shrink-0 w-6 h-6 transition-transform duration-200 group-hover:scale-110',
-              isItemActive(item.to)
-                ? 'text-primary-600 dark:text-primary-400'
-                : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300'
-            ]"
-          >
-            <UIcon :name="item.icon" class="w-5 h-5" />
+              <!-- Icon -->
+              <div
+                :class="[
+                  'flex items-center justify-center shrink-0 w-6 h-6 transition-transform duration-200 group-hover:scale-110',
+                  isItemActive(item.to)
+                    ? 'text-primary-600 dark:text-primary-400'
+                    : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300'
+                ]"
+              >
+                <UIcon :name="item.icon" class="w-5 h-5" />
+              </div>
+
+              <!-- Item Label -->
+              <span
+                v-if="!isCollapsed || isMobileOpen"
+                class="truncate flex-1 tracking-tight"
+              >
+                {{ item.label }}
+              </span>
+
+              <!-- Expand/Collapse Chevron button for submenu -->
+              <button
+                v-if="item.children && (!isCollapsed || isMobileOpen)"
+                type="button"
+                class="p-1 rounded-md text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 focus:outline-hidden"
+                :aria-expanded="isExpanded(item.id)"
+                :title="isExpanded(item.id) ? 'Collapse sub-menu' : 'Expand sub-menu'"
+                @click.stop.prevent="toggleExpand(item.id)"
+              >
+                <UIcon
+                  :name="isExpanded(item.id) ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
+                  class="w-4 h-4 transition-transform duration-200"
+                />
+              </button>
+            </NuxtLink>
           </div>
 
-          <!-- Item Label -->
-          <span
-            v-if="!isCollapsed || isMobileOpen"
-            class="truncate flex-1 tracking-tight"
+          <!-- Nested Submenu for items with children (Settings) -->
+          <div
+            v-if="item.children && isExpanded(item.id) && (!isCollapsed || isMobileOpen)"
+            class="pl-6 pr-1 py-1 space-y-1 ml-4 border-l-2 border-slate-100 dark:border-slate-800/80 transition-all duration-200"
           >
-            {{ item.label }}
-          </span>
-
-          <!-- Optional Badge for scalability -->
-          <span
-            v-if="item.badge && (!isCollapsed || isMobileOpen)"
-            class="ml-auto text-xs px-2 py-0.5 rounded-full font-semibold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
-          >
-            {{ item.badge }}
-          </span>
-        </NuxtLink>
+            <NuxtLink
+              v-for="child in item.children"
+              :key="child.id"
+              :to="child.to"
+              :class="[
+                'group flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 outline-hidden',
+                route.path === child.to
+                  ? 'bg-primary-50/90 dark:bg-primary-950/60 text-primary-700 dark:text-primary-300 font-semibold'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/60 dark:hover:bg-slate-800/40'
+              ]"
+            >
+              <UIcon :name="child.icon" class="w-3.5 h-3.5 shrink-0 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300" />
+              <span class="truncate">{{ child.label }}</span>
+            </NuxtLink>
+          </div>
+        </div>
       </nav>
 
       <!-- Bottom Visual Separation / Status Section -->
@@ -191,10 +240,10 @@ const isItemActive = (to: string) => {
             class="flex flex-col min-w-0"
           >
             <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
-              Admin Director
+              Sarah Jenkins
             </span>
             <span class="text-[11px] text-slate-400 truncate">
-              admin@educrm.com
+              Director • Central
             </span>
           </div>
         </div>

@@ -20,6 +20,13 @@ export const useSidebar = () => {
       description: 'Prospective students and inquiries'
     },
     {
+      id: 'students',
+      label: 'All Students',
+      to: '/students',
+      icon: 'i-lucide-user-check',
+      description: 'Enrolled students directory and records'
+    },
+    {
       id: 'staff',
       label: 'Staff',
       to: '/staff',
@@ -52,7 +59,30 @@ export const useSidebar = () => {
       label: 'Settings',
       to: '/settings',
       icon: 'i-lucide-settings',
-      description: 'Center preferences and system settings'
+      description: 'Center preferences and system settings',
+      children: [
+        {
+          id: 'settings-staff',
+          label: 'Staff',
+          to: '/settings/staff',
+          icon: 'i-lucide-user-cog',
+          description: 'Staff accounts & role creation (Name, Role)'
+        },
+        {
+          id: 'settings-courses',
+          label: 'Courses',
+          to: '/settings/courses',
+          icon: 'i-lucide-book-open',
+          description: 'Course catalog (Name, Level, Price)'
+        },
+        {
+          id: 'settings-payments',
+          label: 'Payment settings',
+          to: '/settings/payments',
+          icon: 'i-lucide-credit-card',
+          description: 'Payment methods, Receiver, Quick pick notes'
+        }
+      ]
     }
   ]
 
