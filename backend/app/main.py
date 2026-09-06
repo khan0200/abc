@@ -1,10 +1,21 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from backend.app.config import settings
+from backend.app.seed import init_db
+from backend.app.api.auth import router as auth_router
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize SQLite database and seed roles & test users
+    init_db()
+    yield
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    lifespan=lifespan
 )
 
 # CORS configuration for Nuxt 4 frontend
@@ -16,12 +27,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include Authentication and Roles router
+app.include_router(auth_router, prefix=settings.API_V1_STR)
+
 @app.get("/api/health")
 def health_check():
     return {
         "status": "healthy",
         "service": settings.PROJECT_NAME,
-        "database": "sqlite"
+        "database": "sqlite",
+        "docs_url": "/docs"
     }
 
 if __name__ == "__main__":
