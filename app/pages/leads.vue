@@ -155,7 +155,7 @@ const cancelClosedReason = () => {
         subtitle="No Answer, Wrong #, Dead"
         :leads="closedLeads"
         :count="counts.CLOSED"
-        color-scheme="slate"
+        color-scheme="red"
         @move-lead="handleMoveLead"
       />
     </div>
