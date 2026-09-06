@@ -3,7 +3,7 @@ import { ref, reactive, computed } from 'vue'
 import { useCourses } from '~/composables/useCourses'
 import { useStudents } from '~/composables/useStudents'
 
-const props = defineProps<{
+defineProps<{
   modelValue: boolean
 }>()
 
@@ -47,11 +47,11 @@ const branches = [
 ]
 
 const isFormValid = computed(() => {
-  return form.name.trim().length >= 2 &&
-    form.email.trim().includes('@') &&
-    form.phone.trim().length >= 6 &&
-    form.courseId.trim().length > 0 &&
-    form.groupName.trim().length > 0
+  return form.name.trim().length >= 2
+    && form.email.trim().includes('@')
+    && form.phone.trim().length >= 6
+    && form.courseId.trim().length > 0
+    && form.groupName.trim().length > 0
 })
 
 const closeModal = () => {
@@ -104,8 +104,8 @@ const handleSubmit = async () => {
       emit('enrolled')
       isSubmitting.value = false
     }, 800)
-  } catch (err: any) {
-    errorMessage.value = err?.message || 'Failed to enroll student. Please try again.'
+  } catch (err: unknown) {
+    errorMessage.value = err instanceof Error ? err.message : 'Failed to enroll student. Please try again.'
     isSubmitting.value = false
   }
 }
@@ -133,7 +133,10 @@ const handleSubmit = async () => {
           <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-950/30">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 dark:bg-primary-950/80 dark:text-primary-400 flex items-center justify-center ring-1 ring-primary-500/20">
-                <UIcon name="i-lucide-user-plus" class="w-5 h-5" />
+                <UIcon
+                  name="i-lucide-user-plus"
+                  class="w-5 h-5"
+                />
               </div>
               <div>
                 <h3 class="text-base font-bold text-slate-900 dark:text-white">
@@ -150,7 +153,10 @@ const handleSubmit = async () => {
               class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               @click="closeModal"
             >
-              <UIcon name="i-lucide-x" class="w-5 h-5" />
+              <UIcon
+                name="i-lucide-x"
+                class="w-5 h-5"
+              />
             </button>
           </div>
 
@@ -159,7 +165,10 @@ const handleSubmit = async () => {
             v-if="showSuccessBanner"
             class="mx-6 mt-4 p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs flex items-center gap-2 font-medium animate-in fade-in"
           >
-            <UIcon name="i-lucide-check-circle" class="w-4 h-4 text-emerald-600 shrink-0" />
+            <UIcon
+              name="i-lucide-check-circle"
+              class="w-4 h-4 text-emerald-600 shrink-0"
+            />
             <span>Student enrolled successfully! Adding to roster...</span>
           </div>
 
@@ -168,12 +177,18 @@ const handleSubmit = async () => {
             v-if="errorMessage"
             class="mx-6 mt-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200 text-xs flex items-center gap-2 font-medium"
           >
-            <UIcon name="i-lucide-alert-circle" class="w-4 h-4 text-rose-600 shrink-0" />
+            <UIcon
+              name="i-lucide-alert-circle"
+              class="w-4 h-4 text-rose-600 shrink-0"
+            />
             <span>{{ errorMessage }}</span>
           </div>
 
           <!-- Form Body -->
-          <form class="p-6 space-y-4 max-h-[75vh] overflow-y-auto" @submit.prevent="handleSubmit">
+          <form
+            class="p-6 space-y-4 max-h-[75vh] overflow-y-auto"
+            @submit.prevent="handleSubmit"
+          >
             <!-- Full Name & Email -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1.5">
@@ -181,14 +196,17 @@ const handleSubmit = async () => {
                   Full Name <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative">
-                  <UIcon name="i-lucide-user" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <UIcon
+                    name="i-lucide-user"
+                    class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                  />
                   <input
                     v-model="form.name"
                     type="text"
                     required
                     placeholder="e.g. Min-jun Kim"
                     class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all"
-                  />
+                  >
                 </div>
               </div>
 
@@ -197,14 +215,17 @@ const handleSubmit = async () => {
                   Email Address <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative">
-                  <UIcon name="i-lucide-mail" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <UIcon
+                    name="i-lucide-mail"
+                    class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                  />
                   <input
                     v-model="form.email"
                     type="email"
                     required
                     placeholder="student@example.com"
                     class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all"
-                  />
+                  >
                 </div>
               </div>
             </div>
@@ -219,20 +240,27 @@ const handleSubmit = async () => {
                   v-model="form.countryCode"
                   class="w-36 px-2.5 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
                 >
-                  <option v-for="c in countryCodes" :key="c.value" :value="c.value">
+                  <option
+                    v-for="c in countryCodes"
+                    :key="c.value"
+                    :value="c.value"
+                  >
                     {{ c.label }}
                   </option>
                 </select>
 
                 <div class="relative flex-1">
-                  <UIcon name="i-lucide-phone" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <UIcon
+                    name="i-lucide-phone"
+                    class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                  />
                   <input
                     v-model="form.phone"
                     type="tel"
                     required
                     placeholder="010-1234-5678"
                     class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all font-mono"
-                  />
+                  >
                 </div>
               </div>
             </div>
@@ -248,8 +276,17 @@ const handleSubmit = async () => {
                   required
                   class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
                 >
-                  <option value="" disabled>Select Course from Settings</option>
-                  <option v-for="c in courses" :key="c.id" :value="c.id">
+                  <option
+                    value=""
+                    disabled
+                  >
+                    Select Course from Settings
+                  </option>
+                  <option
+                    v-for="c in courses"
+                    :key="c.id"
+                    :value="c.id"
+                  >
                     {{ c.name }} ({{ c.level }}) — {{ c.currency || '$' }}{{ c.price }}
                   </option>
                 </select>
@@ -260,14 +297,17 @@ const handleSubmit = async () => {
                   Cohort / Group Name <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative">
-                  <UIcon name="i-lucide-users" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <UIcon
+                    name="i-lucide-users"
+                    class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                  />
                   <input
                     v-model="form.groupName"
                     type="text"
                     required
                     placeholder="e.g. IELTS Morning A (Mon/Wed)"
                     class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all"
-                  />
+                  >
                 </div>
               </div>
             </div>
@@ -281,7 +321,11 @@ const handleSubmit = async () => {
                 v-model="form.branch"
                 class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
               >
-                <option v-for="b in branches" :key="b" :value="b">
+                <option
+                  v-for="b in branches"
+                  :key="b"
+                  :value="b"
+                >
                   {{ b }}
                 </option>
               </select>
@@ -302,7 +346,7 @@ const handleSubmit = async () => {
                     type="text"
                     placeholder="e.g. Hyun-woo Kim"
                     class="w-full px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
-                  />
+                  >
                 </div>
 
                 <div class="space-y-1">
@@ -314,7 +358,7 @@ const handleSubmit = async () => {
                     type="tel"
                     placeholder="010-0000-0000"
                     class="w-full px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 font-mono"
-                  />
+                  >
                 </div>
               </div>
             </div>
@@ -347,8 +391,16 @@ const handleSubmit = async () => {
                 :disabled="!isFormValid || isSubmitting"
                 class="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-bold shadow-sm shadow-primary-600/30 transition-all cursor-pointer"
               >
-                <UIcon v-if="isSubmitting" name="i-lucide-loader-2" class="w-4 h-4 animate-spin" />
-                <UIcon v-else name="i-lucide-user-check" class="w-4 h-4" />
+                <UIcon
+                  v-if="isSubmitting"
+                  name="i-lucide-loader-2"
+                  class="w-4 h-4 animate-spin"
+                />
+                <UIcon
+                  v-else
+                  name="i-lucide-user-check"
+                  class="w-4 h-4"
+                />
                 <span>{{ isSubmitting ? 'Enrolling...' : 'Confirm Enrollment' }}</span>
               </button>
             </div>

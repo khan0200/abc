@@ -88,7 +88,10 @@ const closedReasonLabel = computed(() => {
               : 'text-rose-400 group-hover:text-rose-700'
         ]"
       >
-        <UIcon name="i-lucide-grip-vertical" class="w-3.5 h-3.5" />
+        <UIcon
+          name="i-lucide-grip-vertical"
+          class="w-3.5 h-3.5"
+        />
       </div>
     </div>
 
@@ -108,7 +111,10 @@ const closedReasonLabel = computed(() => {
           ]"
           @click.stop
         >
-          <UIcon name="i-lucide-phone" class="w-3 h-3 opacity-60 shrink-0" />
+          <UIcon
+            name="i-lucide-phone"
+            class="w-3 h-3 opacity-60 shrink-0"
+          />
           <span class="truncate">{{ lead.phone }}</span>
         </a>
 
@@ -118,7 +124,10 @@ const closedReasonLabel = computed(() => {
           :title="copied ? 'Copied!' : 'Copy phone'"
           @click.stop="copyPhone"
         >
-          <UIcon :name="copied ? 'i-lucide-check' : 'i-lucide-copy'" class="w-3 h-3" />
+          <UIcon
+            :name="copied ? 'i-lucide-check' : 'i-lucide-copy'"
+            class="w-3 h-3"
+          />
         </button>
       </div>
 
@@ -144,7 +153,10 @@ const closedReasonLabel = computed(() => {
           ]"
           :title="lead.courseName"
         >
-          <UIcon name="i-lucide-book-open" class="w-2.5 h-2.5 shrink-0 opacity-70" />
+          <UIcon
+            name="i-lucide-book-open"
+            class="w-2.5 h-2.5 shrink-0 opacity-70"
+          />
           <span class="truncate">{{ lead.courseName }}</span>
         </span>
       </div>

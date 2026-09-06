@@ -50,7 +50,10 @@ const handleSelectStudent = (student: Student) => {
           title="Export student directory as CSV"
           @click="exportStudentsToCSV"
         >
-          <UIcon name="i-lucide-download" class="w-4 h-4 text-slate-400" />
+          <UIcon
+            name="i-lucide-download"
+            class="w-4 h-4 text-slate-400"
+          />
           <span>Export List</span>
         </button>
 
@@ -59,7 +62,10 @@ const handleSelectStudent = (student: Student) => {
           class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-[0.98] text-white text-xs font-bold shadow-sm shadow-primary-600/30 transition-all focus:outline-hidden cursor-pointer"
           @click="isEnrollModalOpen = true"
         >
-          <UIcon name="i-lucide-user-plus" class="w-4 h-4" />
+          <UIcon
+            name="i-lucide-user-plus"
+            class="w-4 h-4"
+          />
           <span>Enroll Student</span>
         </button>
       </div>
@@ -71,7 +77,10 @@ const handleSelectStudent = (student: Student) => {
       <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs">
         <div class="flex items-center justify-between text-slate-500 mb-1">
           <span class="text-xs font-medium">Total Roster</span>
-          <UIcon name="i-lucide-users" class="w-4 h-4 text-slate-400" />
+          <UIcon
+            name="i-lucide-users"
+            class="w-4 h-4 text-slate-400"
+          />
         </div>
         <div class="flex items-baseline gap-2">
           <span class="text-2xl font-bold text-slate-900 dark:text-white">
@@ -87,7 +96,10 @@ const handleSelectStudent = (student: Student) => {
       <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs">
         <div class="flex items-center justify-between text-slate-500 mb-1">
           <span class="text-xs font-medium">Active Learners</span>
-          <UIcon name="i-lucide-graduation-cap" class="w-4 h-4 text-emerald-500" />
+          <UIcon
+            name="i-lucide-graduation-cap"
+            class="w-4 h-4 text-emerald-500"
+          />
         </div>
         <div class="flex items-baseline gap-2">
           <span class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
@@ -103,7 +115,10 @@ const handleSelectStudent = (student: Student) => {
       <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs">
         <div class="flex items-center justify-between text-slate-500 mb-1">
           <span class="text-xs font-medium">On Leave</span>
-          <UIcon name="i-lucide-clock" class="w-4 h-4 text-amber-500" />
+          <UIcon
+            name="i-lucide-clock"
+            class="w-4 h-4 text-amber-500"
+          />
         </div>
         <div class="flex items-baseline gap-2">
           <span class="text-2xl font-bold text-amber-600 dark:text-amber-400">
@@ -119,7 +134,10 @@ const handleSelectStudent = (student: Student) => {
       <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs">
         <div class="flex items-center justify-between text-slate-500 mb-1">
           <span class="text-xs font-medium">Pending Tuition</span>
-          <UIcon name="i-lucide-wallet" class="w-4 h-4 text-rose-500" />
+          <UIcon
+            name="i-lucide-wallet"
+            class="w-4 h-4 text-rose-500"
+          />
         </div>
         <div class="flex items-baseline gap-2">
           <span class="text-2xl font-bold text-slate-900 dark:text-white">

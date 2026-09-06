@@ -59,7 +59,10 @@ const handleCreateCourse = () => {
         class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold shadow-xs transition-colors self-start sm:self-auto"
         @click="isAddingCourse = !isAddingCourse"
       >
-        <UIcon :name="isAddingCourse ? 'i-lucide-x' : 'i-lucide-plus'" class="w-4 h-4" />
+        <UIcon
+          :name="isAddingCourse ? 'i-lucide-x' : 'i-lucide-plus'"
+          class="w-4 h-4"
+        />
         <span>{{ isAddingCourse ? 'Cancel' : 'Add Course' }}</span>
       </button>
     </div>
@@ -83,7 +86,7 @@ const handleCreateCourse = () => {
             placeholder="e.g. SAT Math or Business Spanish"
             required
             class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500"
-          />
+          >
         </div>
 
         <div>
@@ -95,7 +98,7 @@ const handleCreateCourse = () => {
             type="text"
             placeholder="e.g. Intermediate or A2"
             class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500"
-          />
+          >
         </div>
 
         <div>
@@ -107,7 +110,7 @@ const handleCreateCourse = () => {
             type="number"
             placeholder="250"
             class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500"
-          />
+          >
         </div>
       </div>
 
@@ -142,7 +145,10 @@ const handleCreateCourse = () => {
           <h4 class="font-bold text-sm text-slate-900 dark:text-white tracking-tight">
             {{ course.name }}
           </h4>
-          <p v-if="course.description" class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+          <p
+            v-if="course.description"
+            class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2"
+          >
             {{ course.description }}
           </p>
         </div>

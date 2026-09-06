@@ -50,7 +50,10 @@ const isTabActive = (to: string) => {
       </div>
 
       <!-- Tab Navigation -->
-      <nav class="flex items-center gap-2 overflow-x-auto pb-1" aria-label="Settings Subsections">
+      <nav
+        class="flex items-center gap-2 overflow-x-auto pb-1"
+        aria-label="Settings Subsections"
+      >
         <NuxtLink
           v-for="tab in tabs"
           :key="tab.to"
@@ -62,7 +65,10 @@ const isTabActive = (to: string) => {
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60'
           ]"
         >
-          <UIcon :name="tab.icon" class="w-4 h-4 shrink-0" />
+          <UIcon
+            :name="tab.icon"
+            class="w-4 h-4 shrink-0"
+          />
           <span>{{ tab.label }}</span>
         </NuxtLink>
       </nav>

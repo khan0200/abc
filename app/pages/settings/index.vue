@@ -34,7 +34,10 @@ const settingsCards = [
     >
       <div>
         <div class="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 flex items-center justify-center mb-4 ring-1 ring-primary-500/20 group-hover:scale-105 transition-transform">
-          <UIcon :name="card.icon" class="w-6 h-6" />
+          <UIcon
+            :name="card.icon"
+            class="w-6 h-6"
+          />
         </div>
         <h3 class="text-base font-bold text-slate-900 dark:text-white tracking-tight">
           {{ card.title }}
@@ -49,7 +52,10 @@ const settingsCards = [
             :key="field"
             class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400"
           >
-            <UIcon name="i-lucide-check-circle-2" class="w-3.5 h-3.5 text-primary-600 dark:text-primary-400 shrink-0" />
+            <UIcon
+              name="i-lucide-check-circle-2"
+              class="w-3.5 h-3.5 text-primary-600 dark:text-primary-400 shrink-0"
+            />
             <span>{{ field }}</span>
           </li>
         </ul>
@@ -57,7 +63,10 @@ const settingsCards = [
 
       <div class="mt-6 flex items-center gap-1.5 text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">
         <span>Configure section</span>
-        <UIcon name="i-lucide-arrow-right" class="w-4 h-4" />
+        <UIcon
+          name="i-lucide-arrow-right"
+          class="w-4 h-4"
+        />
       </div>
     </NuxtLink>
   </div>

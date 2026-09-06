@@ -18,7 +18,6 @@ const {
   waitingLeads,
   closedLeads,
   counts,
-  updateLeadStatus,
   reorderLead
 } = useLeads()
 
@@ -32,7 +31,7 @@ const pendingNewIndex = ref<number>(0)
 const isReasonModalOpen = ref(false)
 const selectedReason = ref<ClosedReason>('NO_ANSWER')
 
-const handleMoveLead = (payload: { id: string; fromStatus: LeadStatus; toStatus: LeadStatus; newIndex: number }) => {
+const handleMoveLead = (payload: { id: string, fromStatus: LeadStatus, toStatus: LeadStatus, newIndex: number }) => {
   const { id, toStatus, newIndex } = payload
   if (toStatus === 'CLOSED') {
     pendingClosedLeadId.value = id
@@ -92,14 +91,17 @@ const cancelClosedReason = () => {
             type="text"
             placeholder="Search name, phone..."
             class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all shadow-2xs"
-          />
+          >
           <button
             v-if="searchQuery"
             type="button"
             class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
             @click="searchQuery = ''"
           >
-            <UIcon name="i-lucide-x" class="w-3.5 h-3.5" />
+            <UIcon
+              name="i-lucide-x"
+              class="w-3.5 h-3.5"
+            />
           </button>
         </div>
 
@@ -109,8 +111,14 @@ const cancelClosedReason = () => {
             v-model="selectedCourseId"
             class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 shadow-2xs truncate"
           >
-            <option value="all">All Courses</option>
-            <option v-for="course in courses" :key="course.id" :value="course.id">
+            <option value="all">
+              All Courses
+            </option>
+            <option
+              v-for="course in courses"
+              :key="course.id"
+              :value="course.id"
+            >
               {{ course.name }}
             </option>
           </select>
@@ -122,7 +130,10 @@ const cancelClosedReason = () => {
           class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-600 hover:bg-primary-700 active:scale-[0.98] text-white text-xs font-bold shadow-sm shadow-primary-600/30 transition-all focus:outline-hidden cursor-pointer"
           @click="isAddModalOpen = true"
         >
-          <UIcon name="i-lucide-plus" class="w-4 h-4" />
+          <UIcon
+            name="i-lucide-plus"
+            class="w-4 h-4"
+          />
           <span>Add Lead</span>
         </button>
       </div>
@@ -186,7 +197,10 @@ const cancelClosedReason = () => {
           <div class="w-full max-w-sm rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-xl space-y-4">
             <div class="flex items-center gap-3">
               <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center">
-                <UIcon name="i-lucide-archive" class="w-5 h-5" />
+                <UIcon
+                  name="i-lucide-archive"
+                  class="w-5 h-5"
+                />
               </div>
               <div>
                 <h4 class="text-sm font-bold text-slate-900 dark:text-white">
@@ -205,7 +219,7 @@ const cancelClosedReason = () => {
                   type="radio"
                   value="NO_ANSWER"
                   class="text-primary-600 focus:ring-primary-500"
-                />
+                >
                 <div class="text-xs">
                   <span class="font-semibold text-slate-800 dark:text-slate-200 block">No Answer</span>
                   <span class="text-slate-400">Repeatedly unreached by phone/chat</span>
@@ -218,7 +232,7 @@ const cancelClosedReason = () => {
                   type="radio"
                   value="WRONG_NUMBER"
                   class="text-primary-600 focus:ring-primary-500"
-                />
+                >
                 <div class="text-xs">
                   <span class="font-semibold text-slate-800 dark:text-slate-200 block">Wrong Number</span>
                   <span class="text-slate-400">Invalid phone or wrong person answered</span>
@@ -231,7 +245,7 @@ const cancelClosedReason = () => {
                   type="radio"
                   value="IRRELEVANT"
                   class="text-primary-600 focus:ring-primary-500"
-                />
+                >
                 <div class="text-xs">
                   <span class="font-semibold text-slate-800 dark:text-slate-200 block">Irrelevant / Spam</span>
                   <span class="text-slate-400">Junk inquiry or marketing message</span>

@@ -80,7 +80,10 @@ const handleStatusChange = (newStatus: StudentStatus) => {
                 class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 @click="emit('close')"
               >
-                <UIcon name="i-lucide-x" class="w-5 h-5" />
+                <UIcon
+                  name="i-lucide-x"
+                  class="w-5 h-5"
+                />
               </button>
             </div>
 
@@ -193,7 +196,10 @@ const handleStatusChange = (newStatus: StudentStatus) => {
                 <!-- Phone -->
                 <div class="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
                   <div class="flex items-center gap-2">
-                    <UIcon name="i-lucide-phone" class="w-4 h-4 text-slate-400 shrink-0" />
+                    <UIcon
+                      name="i-lucide-phone"
+                      class="w-4 h-4 text-slate-400 shrink-0"
+                    />
                     <span class="font-mono font-medium text-slate-800 dark:text-slate-200">{{ student.phone }}</span>
                   </div>
                   <button
@@ -208,7 +214,10 @@ const handleStatusChange = (newStatus: StudentStatus) => {
                 <!-- Email -->
                 <div class="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
                   <div class="flex items-center gap-2 truncate pr-2">
-                    <UIcon name="i-lucide-mail" class="w-4 h-4 text-slate-400 shrink-0" />
+                    <UIcon
+                      name="i-lucide-mail"
+                      class="w-4 h-4 text-slate-400 shrink-0"
+                    />
                     <span class="text-slate-800 dark:text-slate-200 truncate">{{ student.email }}</span>
                   </div>
                   <button
@@ -223,7 +232,10 @@ const handleStatusChange = (newStatus: StudentStatus) => {
             </div>
 
             <!-- Guardian / Emergency Info -->
-            <div v-if="student.guardianName || student.guardianPhone" class="space-y-2">
+            <div
+              v-if="student.guardianName || student.guardianPhone"
+              class="space-y-2"
+            >
               <h4 class="font-bold text-slate-700 dark:text-slate-300 text-[11px] uppercase tracking-wider">
                 Guardian / Emergency Contact
               </h4>
@@ -232,7 +244,10 @@ const handleStatusChange = (newStatus: StudentStatus) => {
                   <span class="font-semibold text-slate-900 dark:text-white block">
                     {{ student.guardianName || 'Guardian' }}
                   </span>
-                  <span v-if="student.guardianPhone" class="font-mono text-slate-500 text-[11px]">
+                  <span
+                    v-if="student.guardianPhone"
+                    class="font-mono text-slate-500 text-[11px]"
+                  >
                     {{ student.guardianPhone }}
                   </span>
                 </div>
@@ -248,7 +263,10 @@ const handleStatusChange = (newStatus: StudentStatus) => {
             </div>
 
             <!-- Notes Section -->
-            <div v-if="student.notes" class="space-y-1.5">
+            <div
+              v-if="student.notes"
+              class="space-y-1.5"
+            >
               <h4 class="font-bold text-slate-700 dark:text-slate-300 text-[11px] uppercase tracking-wider">
                 Academic & Counselor Notes
               </h4>

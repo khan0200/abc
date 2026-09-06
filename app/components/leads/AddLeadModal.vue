@@ -3,7 +3,7 @@ import { ref, reactive, computed } from 'vue'
 import { useCourses } from '~/composables/useCourses'
 import { useLeads } from '~/composables/useLeads'
 
-const props = defineProps<{
+defineProps<{
   modelValue: boolean
 }>()
 
@@ -67,9 +67,9 @@ const managers = [
 ]
 
 const isFormValid = computed(() => {
-  return form.name.trim().length >= 2 &&
-    form.phone.trim().length >= 7 &&
-    form.courseId.trim().length > 0
+  return form.name.trim().length >= 2
+    && form.phone.trim().length >= 7
+    && form.courseId.trim().length > 0
 })
 
 const closeModal = () => {
@@ -153,7 +153,7 @@ const handleSubmit = async () => {
       isSubmitting.value = false
       emit('created')
     }, 600)
-  } catch (err) {
+  } catch {
     errorMessage.value = 'Failed to create lead. Please try again.'
     isSubmitting.value = false
   }
@@ -185,10 +185,16 @@ const handleSubmit = async () => {
           <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 flex items-center justify-center ring-1 ring-blue-500/20">
-                <UIcon name="i-lucide-user-plus" class="w-5 h-5" />
+                <UIcon
+                  name="i-lucide-user-plus"
+                  class="w-5 h-5"
+                />
               </div>
               <div>
-                <h3 id="modal-title" class="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+                <h3
+                  id="modal-title"
+                  class="text-base font-bold text-slate-900 dark:text-white tracking-tight"
+                >
                   Add New Lead
                 </h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400">
@@ -203,7 +209,10 @@ const handleSubmit = async () => {
               aria-label="Close dialog"
               @click="closeModal"
             >
-              <UIcon name="i-lucide-x" class="w-5 h-5" />
+              <UIcon
+                name="i-lucide-x"
+                class="w-5 h-5"
+              />
             </button>
           </div>
 
@@ -212,7 +221,10 @@ const handleSubmit = async () => {
             v-if="showSuccessBanner"
             class="mx-6 mt-4 p-3 rounded-xl bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-2 text-xs font-semibold"
           >
-            <UIcon name="i-lucide-check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0" />
+            <UIcon
+              name="i-lucide-check-circle-2"
+              class="w-4 h-4 text-emerald-600 shrink-0"
+            />
             <span>Lead successfully created and added to Cold column!</span>
           </div>
 
@@ -221,12 +233,18 @@ const handleSubmit = async () => {
             v-if="errorMessage"
             class="mx-6 mt-4 p-3 rounded-xl bg-rose-50 text-rose-800 dark:bg-rose-950/50 dark:text-rose-300 border border-rose-200 dark:border-rose-800 flex items-center gap-2 text-xs font-medium"
           >
-            <UIcon name="i-lucide-alert-circle" class="w-4 h-4 text-rose-600 shrink-0" />
+            <UIcon
+              name="i-lucide-alert-circle"
+              class="w-4 h-4 text-rose-600 shrink-0"
+            />
             <span>{{ errorMessage }}</span>
           </div>
 
           <!-- Form Body -->
-          <form class="p-6 space-y-4" @submit.prevent="handleSubmit">
+          <form
+            class="p-6 space-y-4"
+            @submit.prevent="handleSubmit"
+          >
             <!-- Full Name (Required) -->
             <div>
               <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
@@ -239,7 +257,7 @@ const handleSubmit = async () => {
                   placeholder="e.g. Min-jun Kim or Sarah Connor"
                   required
                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all"
-                />
+                >
               </div>
             </div>
 
@@ -254,7 +272,11 @@ const handleSubmit = async () => {
                   v-model="form.countryCode"
                   class="px-2.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 shrink-0"
                 >
-                  <option v-for="c in countryCodes" :key="c.value" :value="c.value">
+                  <option
+                    v-for="c in countryCodes"
+                    :key="c.value"
+                    :value="c.value"
+                  >
                     {{ c.label }}
                   </option>
                 </select>
@@ -267,7 +289,7 @@ const handleSubmit = async () => {
                   required
                   class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-sm font-mono text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all"
                   @input="handlePhoneInput"
-                />
+                >
               </div>
               <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-1 block">
                 Supports Korean mobile (010) and international formats with area codes.
@@ -286,7 +308,10 @@ const handleSubmit = async () => {
                   class="text-[11px] text-primary-600 hover:text-primary-700 dark:text-primary-400 font-medium inline-flex items-center gap-1"
                 >
                   <span>Manage in Settings</span>
-                  <UIcon name="i-lucide-external-link" class="w-3 h-3" />
+                  <UIcon
+                    name="i-lucide-external-link"
+                    class="w-3 h-3"
+                  />
                 </NuxtLink>
               </div>
 
@@ -295,7 +320,12 @@ const handleSubmit = async () => {
                 required
                 class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-sm text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all"
               >
-                <option value="" disabled>-- Select Intended Course --</option>
+                <option
+                  value=""
+                  disabled
+                >
+                  -- Select Intended Course --
+                </option>
                 <option
                   v-for="course in courses"
                   :key="course.id"
@@ -322,7 +352,10 @@ const handleSubmit = async () => {
             </div>
 
             <!-- Optional Fields Section -->
-            <div v-if="showAdvanced" class="space-y-3 pt-2">
+            <div
+              v-if="showAdvanced"
+              class="space-y-3 pt-2"
+            >
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <!-- Preferred Start Date -->
                 <div>
@@ -333,7 +366,7 @@ const handleSubmit = async () => {
                     v-model="form.preferredStartDate"
                     type="date"
                     class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
-                  />
+                  >
                 </div>
 
                 <!-- Preferred Time Slot -->
@@ -345,8 +378,16 @@ const handleSubmit = async () => {
                     v-model="form.preferredTime"
                     class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
                   >
-                    <option value="">Any Time</option>
-                    <option v-for="t in timeSlots" :key="t" :value="t">{{ t }}</option>
+                    <option value="">
+                      Any Time
+                    </option>
+                    <option
+                      v-for="t in timeSlots"
+                      :key="t"
+                      :value="t"
+                    >
+                      {{ t }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -361,7 +402,13 @@ const handleSubmit = async () => {
                     v-model="form.source"
                     class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
                   >
-                    <option v-for="s in sources" :key="s" :value="s">{{ s }}</option>
+                    <option
+                      v-for="s in sources"
+                      :key="s"
+                      :value="s"
+                    >
+                      {{ s }}
+                    </option>
                   </select>
                 </div>
 
@@ -374,7 +421,13 @@ const handleSubmit = async () => {
                     v-model="form.assignedManager"
                     class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
                   >
-                    <option v-for="m in managers" :key="m" :value="m">{{ m }}</option>
+                    <option
+                      v-for="m in managers"
+                      :key="m"
+                      :value="m"
+                    >
+                      {{ m }}
+                    </option>
                   </select>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSidebar } from '~/composables/useSidebar'
 
@@ -74,7 +74,10 @@ const isItemActive = (to: string) => {
         >
           <!-- Academy Emblem Icon -->
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center text-white shadow-sm shadow-primary-500/20 shrink-0 group-hover:scale-105 transition-transform duration-200">
-            <UIcon name="i-lucide-graduation-cap" class="w-6 h-6" />
+            <UIcon
+              name="i-lucide-graduation-cap"
+              class="w-6 h-6"
+            />
           </div>
 
           <!-- Title & Subtitle (hidden when desktop collapsed) -->
@@ -98,7 +101,10 @@ const isItemActive = (to: string) => {
           aria-label="Close sidebar"
           @click="closeMobile"
         >
-          <UIcon name="i-lucide-x" class="w-5 h-5" />
+          <UIcon
+            name="i-lucide-x"
+            class="w-5 h-5"
+          />
         </button>
 
         <!-- Desktop Collapse Button -->
@@ -159,7 +165,10 @@ const isItemActive = (to: string) => {
                     : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300'
                 ]"
               >
-                <UIcon :name="item.icon" class="w-5 h-5" />
+                <UIcon
+                  :name="item.icon"
+                  class="w-5 h-5"
+                />
               </div>
 
               <!-- Item Label -->
@@ -203,7 +212,10 @@ const isItemActive = (to: string) => {
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/60 dark:hover:bg-slate-800/40'
               ]"
             >
-              <UIcon :name="child.icon" class="w-3.5 h-3.5 shrink-0 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300" />
+              <UIcon
+                :name="child.icon"
+                class="w-3.5 h-3.5 shrink-0 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300"
+              />
               <span class="truncate">{{ child.label }}</span>
             </NuxtLink>
           </div>

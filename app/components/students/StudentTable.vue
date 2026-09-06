@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import type { Student } from '~/types/student'
 
-const props = defineProps<{
+defineProps<{
   students: Student[]
 }>()
 
@@ -33,14 +33,30 @@ const copyText = async (id: string, text: string) => {
         <!-- Table Header -->
         <thead>
           <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            <th class="py-3.5 px-4 sm:px-6">Student</th>
-            <th class="py-3.5 px-4">Contact Info</th>
-            <th class="py-3.5 px-4">Course & Group</th>
-            <th class="py-3.5 px-4">Campus</th>
-            <th class="py-3.5 px-4 text-center">Status</th>
-            <th class="py-3.5 px-4 text-center">Attendance</th>
-            <th class="py-3.5 px-4 text-right">Tuition Balance</th>
-            <th class="py-3.5 px-4 text-center">Action</th>
+            <th class="py-3.5 px-4 sm:px-6">
+              Student
+            </th>
+            <th class="py-3.5 px-4">
+              Contact Info
+            </th>
+            <th class="py-3.5 px-4">
+              Course & Group
+            </th>
+            <th class="py-3.5 px-4">
+              Campus
+            </th>
+            <th class="py-3.5 px-4 text-center">
+              Status
+            </th>
+            <th class="py-3.5 px-4 text-center">
+              Attendance
+            </th>
+            <th class="py-3.5 px-4 text-right">
+              Tuition Balance
+            </th>
+            <th class="py-3.5 px-4 text-center">
+              Action
+            </th>
           </tr>
         </thead>
 
@@ -89,10 +105,16 @@ const copyText = async (id: string, text: string) => {
                     :title="copiedId === student.id ? 'Copied!' : 'Copy phone'"
                     @click.stop="copyText(student.id, student.phone)"
                   >
-                    <UIcon :name="copiedId === student.id ? 'i-lucide-check' : 'i-lucide-copy'" class="w-3 h-3 text-primary-600" />
+                    <UIcon
+                      :name="copiedId === student.id ? 'i-lucide-check' : 'i-lucide-copy'"
+                      class="w-3 h-3 text-primary-600"
+                    />
                   </button>
                 </div>
-                <span v-if="student.guardianName" class="text-[10px] text-slate-400 truncate">
+                <span
+                  v-if="student.guardianName"
+                  class="text-[10px] text-slate-400 truncate"
+                >
                   Guardian: {{ student.guardianName }}
                 </span>
               </div>
@@ -113,7 +135,10 @@ const copyText = async (id: string, text: string) => {
             <!-- Column 4: Campus Branch -->
             <td class="py-3.5 px-4">
               <span class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-300">
-                <UIcon name="i-lucide-building" class="w-3.5 h-3.5 text-slate-400" />
+                <UIcon
+                  name="i-lucide-building"
+                  class="w-3.5 h-3.5 text-slate-400"
+                />
                 <span>{{ student.branch }}</span>
               </span>
             </td>
@@ -193,7 +218,10 @@ const copyText = async (id: string, text: string) => {
                 class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 title="View student profile"
               >
-                <UIcon name="i-lucide-chevron-right" class="w-4 h-4" />
+                <UIcon
+                  name="i-lucide-chevron-right"
+                  class="w-4 h-4"
+                />
               </button>
             </td>
           </tr>
@@ -206,7 +234,10 @@ const copyText = async (id: string, text: string) => {
         class="py-16 px-4 flex flex-col items-center justify-center text-center space-y-2"
       >
         <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mb-2">
-          <UIcon name="i-lucide-users-round" class="w-6 h-6" />
+          <UIcon
+            name="i-lucide-users-round"
+            class="w-6 h-6"
+          />
         </div>
         <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">
           No students match the current filters

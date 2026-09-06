@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import type { Course } from '~/types/course'
 
 const INITIAL_COURSES: Course[] = [

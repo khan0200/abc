@@ -199,14 +199,14 @@ export const useStudents = () => {
     const query = searchQuery.value.trim().toLowerCase()
     const cleanNumbers = query.replace(/[^0-9]/g, '')
 
-    return students.value.filter(s => {
+    return students.value.filter((s) => {
       // Search matches: name, studentId, email, phone, guardian
-      const matchesSearch = !query ||
-        s.name.toLowerCase().includes(query) ||
-        s.studentId.toLowerCase().includes(query) ||
-        s.email.toLowerCase().includes(query) ||
-        (cleanNumbers && s.phone.replace(/[^0-9]/g, '').includes(cleanNumbers)) ||
-        (s.guardianName && s.guardianName.toLowerCase().includes(query))
+      const matchesSearch = !query
+        || s.name.toLowerCase().includes(query)
+        || s.studentId.toLowerCase().includes(query)
+        || s.email.toLowerCase().includes(query)
+        || (cleanNumbers && s.phone.replace(/[^0-9]/g, '').includes(cleanNumbers))
+        || (s.guardianName && s.guardianName.toLowerCase().includes(query))
 
       // Course Filter
       const matchesCourse = selectedCourse.value === 'all' || s.courseId === selectedCourse.value
@@ -331,4 +331,3 @@ export const useStudents = () => {
     exportStudentsToCSV
   }
 }
-

@@ -4,7 +4,7 @@ import Sortable from 'sortablejs'
 import type { Lead, LeadStatus } from '~/types/lead'
 import KanbanCard from '~/components/leads/KanbanCard.vue'
 
-const props = defineProps<{
+defineProps<{
   status: LeadStatus
   title: string
   subtitle: string
@@ -14,7 +14,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'move-lead', payload: { id: string; fromStatus: LeadStatus; toStatus: LeadStatus; newIndex: number }): void
+  (e: 'move-lead', payload: { id: string, fromStatus: LeadStatus, toStatus: LeadStatus, newIndex: number }): void
 }>()
 
 const containerRef = ref<HTMLElement | null>(null)
@@ -171,7 +171,10 @@ onUnmounted(() => {
               : 'border-rose-200 dark:border-rose-900/50 text-rose-400'
         ]"
       >
-        <UIcon name="i-lucide-inbox" class="w-5 h-5 mb-1 opacity-60" />
+        <UIcon
+          name="i-lucide-inbox"
+          class="w-5 h-5 mb-1 opacity-60"
+        />
         <span class="text-xs font-medium">No leads in this stage</span>
         <span class="text-[10px] opacity-70">Drop cards here to update</span>
       </div>

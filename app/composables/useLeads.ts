@@ -111,11 +111,11 @@ export const useLeads = () => {
 
   const filteredLeads = computed(() => {
     const query = searchQuery.value.trim().toLowerCase()
-    return leads.value.filter(lead => {
-      const matchesSearch = !query ||
-        lead.name.toLowerCase().includes(query) ||
-        lead.phone.replace(/[^0-9]/g, '').includes(query.replace(/[^0-9]/g, '')) ||
-        lead.courseName.toLowerCase().includes(query)
+    return leads.value.filter((lead) => {
+      const matchesSearch = !query
+        || lead.name.toLowerCase().includes(query)
+        || lead.phone.replace(/[^0-9]/g, '').includes(query.replace(/[^0-9]/g, ''))
+        || lead.courseName.toLowerCase().includes(query)
 
       const matchesCourse = selectedCourseId.value === 'all' || lead.courseId === selectedCourseId.value
 

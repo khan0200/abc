@@ -14,7 +14,6 @@ const currentItem = computed(() => {
 })
 
 const pageTitle = computed(() => currentItem.value?.label || 'Overview')
-const pageDescription = computed(() => currentItem.value?.description || 'Education Center CRM Platform')
 </script>
 
 <template>
@@ -28,14 +27,20 @@ const pageDescription = computed(() => currentItem.value?.description || 'Educat
         aria-label="Open sidebar menu"
         @click="toggleMobile"
       >
-        <UIcon name="i-lucide-menu" class="w-5 h-5" />
+        <UIcon
+          name="i-lucide-menu"
+          class="w-5 h-5"
+        />
       </button>
 
       <!-- Breadcrumb & Title Indicator -->
       <div class="flex flex-col min-w-0">
         <div class="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 font-medium">
           <span>CRM</span>
-          <UIcon name="i-lucide-chevron-right" class="w-3.5 h-3.5 shrink-0" />
+          <UIcon
+            name="i-lucide-chevron-right"
+            class="w-3.5 h-3.5 shrink-0"
+          />
           <span class="text-slate-700 dark:text-slate-300 font-semibold">{{ pageTitle }}</span>
         </div>
         <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight leading-tight truncate">
@@ -48,7 +53,10 @@ const pageDescription = computed(() => currentItem.value?.description || 'Educat
     <div class="flex items-center gap-2 sm:gap-3">
       <!-- Term Status Badge -->
       <div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800/70 text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
-        <UIcon name="i-lucide-calendar" class="w-3.5 h-3.5 text-primary-600 dark:text-primary-400" />
+        <UIcon
+          name="i-lucide-calendar"
+          class="w-3.5 h-3.5 text-primary-600 dark:text-primary-400"
+        />
         <span>Fall 2026 Term</span>
       </div>
 
@@ -61,7 +69,10 @@ const pageDescription = computed(() => currentItem.value?.description || 'Educat
         class="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 focus:outline-hidden transition-colors relative"
         aria-label="Notifications"
       >
-        <UIcon name="i-lucide-bell" class="w-5 h-5" />
+        <UIcon
+          name="i-lucide-bell"
+          class="w-5 h-5"
+        />
         <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-600" />
       </button>
     </div>
